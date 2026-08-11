@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Diego Josué Nina Fernández — Ingeniería Electrónica &amp; Refrigeración Industrial</title>
+<meta name="description" content="Portafolio de Diego Josué Nina Fernández — Control y automatización de sistemas de refrigeración industrial e Ingeniería Electrónica (UMSA).">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #0B1D26;
+    --panel: #12262F;
+    --panel-2: #16303B;
+    --line: #22404C;
+    --ice: #7FD8E0;
+    --ice-dim: #4C8A93;
+    --copper: #E8985E;
+    --copper-dim: #B96F3D;
+    --text: #EAF2F0;
+    --text-dim: #9FB4BA;
+    --text-faint: #5E7680;
+  }
+  *{ margin:0; padding:0; box-sizing:border-box; }
+  html{ scroll-behavior: smooth; }
+  body{
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+  body::before{
+    content:"";
+    position: fixed; inset:0;
+    background-image:
+      linear-gradient(rgba(127,216,224,0.035) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(127,216,224,0.035) 1px, transparent 1px);
+    background-size: 42px 42px;
+    pointer-events: none;
+    z-index: 0;
+  }
+  .display{ font-family:'Barlow Condensed', sans-serif; text-transform: uppercase; letter-spacing: 0.03em; }
+  .mono{ font-family:'IBM Plex Mono', monospace; }
+
+  /* ---- NAV ---- */
+  header{
+    position: fixed; top:0; left:0; right:0; z-index: 50;
+    display:flex; align-items:center; justify-content: space-between;
+    padding: 18px 6vw;
+    background: rgba(11,29,38,0.85);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--line);
+  }
+  .brand{ display:flex; align-items:center; gap:10px; }
+  .brand-mark{
+    width:34px; height:34px; border:1px solid var(--ice-dim); border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    font-family:'IBM Plex Mono', monospace; font-size:12px; color: var(--ice);
+    position: relative;
+  }
+  .brand-mark::after{
+    content:""; position:absolute; inset:-5px; border-radius:50%;
+    border: 1px dashed rgba(127,216,224,0.25);
+  }
+  .brand-name{ font-family:'IBM Plex Mono', monospace; font-size:13px; color: var(--text-dim); letter-spacing:0.04em; }
+  .brand-name b{ color: var(--text); font-weight:600; }
+  nav{ display:flex; gap: 34px; }
+  nav a{
+    color: var(--text-dim); text-decoration:none; font-size:13px;
+    font-family:'IBM Plex Mono', monospace; letter-spacing:0.05em;
+    position: relative; padding-bottom: 4px; transition: color .2s;
+  }
+  nav a::before{ content: attr(data-index); color: var(--copper); margin-right:6px; }
+  nav a:hover{ color: var(--text); }
+  nav a::after{
+    content:""; position:absolute; left:0; bottom:0; height:1px; width:0;
+    background: var(--ice); transition: width .25s;
+  }
+  nav a:hover::after{ width:100%; }
+  @media (max-width: 780px){ nav{ display:none; } }
+
+  section{ position: relative; z-index: 1; padding: 120px 6vw 90px; }
+
+  /* ---- HERO ---- */
+  .hero{
+    min-height: 100vh; display:flex; align-items:center;
+    padding-top: 100px;
+  }
+  .hero-grid{
+    display:grid; grid-template-columns: 1.15fr 0.85fr; gap: 60px; align-items:center; width:100%;
+  }
+  @media (max-width: 900px){ .hero-grid{ grid-template-columns: 1fr; } }
+  h1.name{
+    font-size: clamp(2.6rem, 6vw, 4.6rem);
+    line-height: 0.98; font-weight: 700; color: var(--text);
+  }
+  h1.name span{ color: var(--ice); }
+  .role{
+    margin-top: 18px; font-family:'IBM Plex Mono', monospace; font-size: 15px;
+    color: var(--copper); letter-spacing: 0.02em;
+  }
+  .hero-desc{ margin-top: 22px; max-width: 46ch; color: var(--text-dim); font-size: 15.5px; }
+  .hero-cta{ margin-top: 34px; display:flex; gap:16px; flex-wrap: wrap; }
+  .btn{
+    font-family:'IBM Plex Mono', monospace; font-size:13px; letter-spacing:0.04em;
+    padding: 13px 22px; border-radius: 3px; text-decoration:none; display:inline-flex; align-items:center; gap:8px;
+    transition: all .2s;
+  }
+  .btn-primary{ background: var(--ice); color: #06171F; font-weight:600; }
+  .btn-primary:hover{ background:#9fe6ec; transform: translateY(-1px); }
+  .btn-ghost{ border: 1px solid var(--line); color: var(--text-dim); }
+  .btn-ghost:hover{ border-color: var(--ice-dim); color: var(--text); }
+
+  /* ---- FOTO O CONTENEDOR HERO ---- */
+  .hero-photo-wrap{ display:flex; flex-direction:column; align-items:center; gap: 18px; }
+  .hero-photo-box{
+    width: min(320px, 80vw); height: min(320px, 80vw); position:relative;
+    background: var(--panel); border: 1px dashed var(--ice-dim); border-radius: 8px;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    color: var(--text-faint); gap: 12px; overflow: hidden;
+  }
+  .hero-photo-box img{ width: 100%; height: 100%; object-fit: cover; }
+  .hero-photo-box svg{ width: 48px; height: 48px; opacity: 0.5; color: var(--ice); }
+  .hero-photo-box span{ font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.1em; }
+  
+  .hero-status{
+    font-family:'IBM Plex Mono', monospace; font-size: 12px; color: var(--ice); letter-spacing:0.1em;
+    border: 1px solid var(--ice-dim); padding: 6px 14px; border-radius: 999px;
+    display:flex; align-items:center; gap:8px;
+  }
+  .hero-status .dot{ width:6px; height:6px; border-radius:50%; background: var(--ice); box-shadow: 0 0 8px var(--ice); animation: pulse 2s infinite; }
+  @keyframes pulse{ 0%,100%{opacity:1;} 50%{opacity:.35;} }
+
+  /* ---- SECTION HEADERS ---- */
+  .sec-head{ display:flex; align-items:baseline; gap:16px; margin-bottom: 46px; }
+  .sec-num{ font-family:'IBM Plex Mono', monospace; color: var(--copper); font-size: 13px; }
+  .sec-title{ font-size: clamp(1.8rem, 3.4vw, 2.6rem); font-weight:700; }
+  .sec-line{ flex:1; height:1px; background: var(--line); }
+
+  /* ---- SOBRE MI ---- */
+  .about-grid{ display:grid; grid-template-columns: 0.9fr 1.1fr; gap: 60px; }
+  @media (max-width: 900px){ .about-grid{ grid-template-columns: 1fr; } }
+  .avatar-box{
+    width: 180px; height: 180px; border-radius: 50%;
+    border: 1px solid var(--line); background: var(--panel);
+    display:flex; align-items:center; justify-content:center;
+    position: relative; margin-bottom: 26px;
+  }
+  .avatar-box::before{
+    content:""; position:absolute; inset:-10px; border-radius:50%;
+    border: 1px dashed rgba(127,216,224,0.2);
+  }
+  .avatar-box svg{ width: 76px; height:76px; color: var(--ice-dim); }
+  .about-text p{ color: var(--text-dim); font-size: 15.5px; margin-bottom: 16px; max-width: 62ch; }
+  .about-text strong{ color: var(--text); font-weight:600; }
+
+  .edu-list{ margin-top: 30px; display:flex; flex-direction: column; gap: 0; }
+  .edu-item{ display:flex; gap: 18px; padding: 16px 0; border-top: 1px solid var(--line); }
+  .edu-item:last-child{ border-bottom: 1px solid var(--line); }
+  .edu-tag{ font-family:'IBM Plex Mono', monospace; font-size: 11px; color: var(--copper); min-width: 92px; padding-top:2px; }
+  .edu-body b{ display:block; font-size: 15px; color: var(--text); margin-bottom: 2px; }
+  .edu-body span{ font-size: 13.5px; color: var(--text-faint); }
+
+  /* ---- SERVICIOS ---- */
+  .spec-grid{ display:grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  @media (max-width: 900px){ .spec-grid{ grid-template-columns: 1fr; } }
+  .spec-card{
+    background: var(--panel); border: 1px solid var(--line); border-radius: 4px;
+    padding: 26px; position: relative; overflow:hidden;
+  }
+  .spec-card::before{
+    content: attr(data-code); position:absolute; top:12px; right:16px;
+    font-family:'IBM Plex Mono', monospace; font-size:11px; color: var(--text-faint);
+  }
+  .spec-icon{ width: 40px; height:40px; margin-bottom: 18px; color: var(--ice); }
+  .spec-card h3{ font-size: 17px; font-weight:600; margin-bottom: 10px; color: var(--text); }
+  .spec-card p{ font-size: 14px; color: var(--text-dim); }
+  .spec-foot{
+    margin-top: 18px; padding-top: 14px; border-top: 1px dashed var(--line);
+    font-family:'IBM Plex Mono', monospace; font-size: 11px; color: var(--text-faint); letter-spacing:0.06em;
+  }
+  .app-row{ margin-top: 26px; display:flex; flex-wrap: wrap; gap: 10px; }
+  .app-pill{
+    font-family:'IBM Plex Mono', monospace; font-size: 12px; color: var(--text-dim);
+    border: 1px solid var(--line); border-radius: 999px; padding: 8px 16px;
+    display:flex; align-items:center; gap:8px;
+  }
+  .app-pill .dot{ width:5px; height:5px; border-radius:50%; background: var(--copper); }
+
+  /* ---- PROYECTOS ---- */
+  .proj-grid{ display:grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  @media (max-width: 900px){ .proj-grid{ grid-template-columns: 1fr; } }
+  .proj-card{
+    aspect-ratio: 4/3; border-radius: 4px; border: 1px dashed var(--line);
+    display:flex; flex-direction:column; align-items:center; justify-content:center; gap: 12px;
+    color: var(--text-faint); background:
+      repeating-linear-gradient(135deg, rgba(127,216,224,0.03) 0 2px, transparent 2px 14px);
+  }
+  .proj-card svg{ width:34px; height:34px; opacity:.6; }
+  .proj-card span{ font-family:'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 0.08em; }
+  .proj-note{ margin-top: 22px; font-size: 13.5px; color: var(--text-faint); }
+
+  /* ---- CONTACTO ---- */
+  .contact-wrap{
+    background: var(--panel); border: 1px solid var(--line); border-radius: 6px;
+    padding: 50px 6vw; display:grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items:center;
+  }
+  @media (max-width: 800px){ .contact-wrap{ grid-template-columns: 1fr; padding: 40px 26px; } }
+  .contact-wrap h2{ font-size: clamp(1.6rem, 3vw, 2.2rem); font-weight:700; margin-bottom: 14px; }
+  .contact-wrap p{ color: var(--text-dim); font-size: 14.5px; max-width: 42ch; }
+  .contact-links{ display:flex; flex-direction:column; gap: 14px; }
+  .clink{
+    display:flex; align-items:center; gap: 14px; padding: 16px 18px;
+    background: var(--panel-2); border: 1px solid var(--line); border-radius: 4px;
+    text-decoration:none; color: var(--text); transition: all .2s;
+  }
+  .clink:hover{ border-color: var(--ice-dim); transform: translateX(4px); }
+  .clink svg{ width: 20px; height:20px; color: var(--ice); flex-shrink:0; }
+  .clink b{ display:block; font-size:14px; }
+  .clink span{ display:block; font-size:12.5px; color: var(--text-faint); font-family:'IBM Plex Mono', monospace; }
+
+  footer{
+    padding: 30px 6vw; text-align:center; border-top: 1px solid var(--line);
+    font-family:'IBM Plex Mono', monospace; font-size: 12px; color: var(--text-faint);
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand">
+    <div class="brand-mark">DJ</div>
+    <div class="brand-name"><b>Diego Josué</b> Nina Fernández</div>
+  </div>
+  <nav>
+    <a href="#inicio" data-index="00">Inicio</a>
+    <a href="#sobre-mi" data-index="01">Sobre mí</a>
+    <a href="#servicios" data-index="02">Servicios</a>
+    <a href="#proyectos" data-index="03">Proyectos</a>
+    <a href="#contacto" data-index="04">Contacto</a>
+  </nav>
+</header>
+
+<section class="hero" id="inicio">
+  <div class="hero-grid">
+    <div>
+      <h1 class="name display">Diego Josué<br><span>Nina Fernández</span></h1>
+      <div class="role mono">ING. ELECTRÓNICA (EN CURSO) — UMSA · REFRIGERACIÓN &amp; AUTOMATIZACIÓN INDUSTRIAL</div>
+      <p class="hero-desc">Controlo y automatizo sistemas de refrigeración y congelamiento con base en electricidad industrial. Instalo equipos originales y los adapto con controladores locales cuando hace falta, para que cada cámara fría llegue exactamente a la temperatura que su uso exige.</p>
+      <div class="hero-cta">
+        <a href="https://wa.me/59162371448" target="_blank" rel="noopener" class="btn btn-primary">Contactar por WhatsApp</a>
+        <a href="#servicios" class="btn btn-ghost">Ver servicios</a>
+      </div>
+    </div>
+    <div class="hero-photo-wrap">
+      <div class="hero-photo-box">
+        <!-- Cuando tengas tu foto, reemplaza las líneas del SVG y span por: <img src="tu-foto.jpg" alt="Diego Nina"> -->
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4">
+          <circle cx="12" cy="8" r="4"/>
+          <path d="M4 20c0-4.4 3.6-7 8-7s8 2.6 8 7"/>
+        </svg>
+        <span>FOTO DE PERFIL</span>
+      </div>
+      <div class="hero-status"><span class="dot"></span> DISPONIBLE PARA PROYECTOS</div>
+    </div>
+  </div>
+</section>
+
+<section id="sobre-mi">
+  <div class="sec-head">
+    <span class="sec-num mono">01</span>
+    <h2 class="sec-title display">Sobre mí</h2>
+    <div class="sec-line"></div>
+  </div>
+  <div class="about-grid">
+    <div>
+      <div class="avatar-box">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4">
+          <circle cx="12" cy="8" r="4"/>
+          <path d="M4 20c0-4.4 3.6-7 8-7s8 2.6 8 7"/>
+        </svg>
+      </div>
+    </div>
+    <div class="about-text">
+      <p>Soy <strong>Diego Josué</strong>, estudiante de <strong>Ingeniería Electrónica</strong> en la Universidad Mayor de San Andrés. Me apasiona manejar y controlar sistemas automáticos de equipos de refrigeración y congelamiento a partir de electricidad industrial, y sigo ampliando ese conocimiento por mi cuenta más allá de la universidad.</p>
+      <p>Actualmente combino estudio y trabajo: mientras avanzo en la carrera, aplico lo aprendido instalando y automatizando equipos frigoríficos reales, y me mantengo al tanto de los nuevos equipos de refrigeración que van saliendo al mercado para poder instalarlos. Fuera del taller, juego voleibol en mi tiempo libre.</p>
+
+      <div class="edu-list">
+        <div class="edu-item">
+          <div class="edu-tag mono">2020 — HOY</div>
+          <div class="edu-body"><b>Ingeniería Electrónica</b><span>Universidad Mayor de San Andrés (UMSA) — en curso</span></div>
+        </div>
+        <div class="edu-item">
+          <div class="edu-tag mono">INFOCAL</div>
+          <div class="edu-body"><b>Refrigeración doméstica y comercial</b><span>Formación técnica complementaria</span></div>
+        </div>
+        <div class="edu-item">
+          <div class="edu-tag mono">INFOCAL</div>
+          <div class="edu-body"><b>Diseño industrial</b><span>Formación técnica complementaria</span></div>
+        </div>
+        <div class="edu-item">
+          <div class="edu-tag mono">INFOCAL</div>
+          <div class="edu-body"><b>Electricidad básica</b><span>Estudio externo, en curso, en tiempo libre</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="servicios">
+  <div class="sec-head">
+    <span class="sec-num mono">02</span>
+    <h2 class="sec-title display">Servicios</h2>
+    <div class="sec-line"></div>
+  </div>
+  <div class="spec-grid">
+    <div class="spec-card" data-code="SVC-01">
+      <svg class="spec-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4">
+        <rect x="4" y="2" width="16" height="20" rx="1.5"/>
+        <line x1="4" y1="12" x2="20" y2="12"/>
+        <line x1="8" y1="6" x2="8" y2="6.5"/>
+        <line x1="8" y1="16" x2="8" y2="16.5"/>
+      </svg>
+      <h3>Instalación de equipos originales</h3>
+      <p>Instalación de equipos frigoríficos de marca original, traídos directamente de Japón, con montaje y puesta en marcha completa.</p>
+      <div class="spec-foot">ORIGEN: JP · MONTAJE COMPLETO</div>
+    </div>
+    <div class="spec-card" data-code="SVC-02">
+      <svg class="spec-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4">
+        <circle cx="12" cy="12" r="3"/>
+        <path d="M12 2v3M12 19v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M2 12h3M19 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"/>
+      </svg>
+      <h3>Automatización con controladores</h3>
+      <p>Cuando no se dispone del equipo original, automatizo el sistema con controladores de marcas disponibles en La Paz, sin perder precisión.</p>
+      <div class="spec-foot">CONTROL LOCAL · ADAPTABLE</div>
+    </div>
+    <div class="spec-card" data-code="SVC-03">
+      <svg class="spec-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4">
+        <path d="M12 2v4M12 18v4M2 12h4M18 12h4"/>
+        <circle cx="12" cy="12" r="6"/>
+      </svg>
+      <h3>Ajuste de temperatura al uso</h3>
+      <p>Entrego el equipo enfriando exactamente al rango que exige cada producto, sea cual sea la cadena de frío que necesite.</p>
+      <div class="spec-foot">PRECISIÓN POR APLICACIÓN</div>
+    </div>
+  </div>
+
+  <div class="app-row">
+    <div class="app-pill"><span class="dot"></span>Cadena de frío — pollo</div>
+    <div class="app-pill"><span class="dot"></span>Cadena de frío — carne</div>
+    <div class="app-pill"><span class="dot"></span>Cadena de frío — lácteos</div>
+    <div class="app-pill"><span class="dot"></span>Conservación de medicamentos</div>
+    <div class="app-pill"><span class="dot"></span>Electricidad industrial</div>
+  </div>
+</section>
+
+<section id="proyectos">
+  <div class="sec-head">
+    <span class="sec-num mono">03</span>
+    <h2 class="sec-title display">Proyectos</h2>
+    <div class="sec-line"></div>
+  </div>
+  <div class="proj-grid">
+    <div class="proj-card">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 15l5-5 4 4 5-6 4 5"/></svg>
+      <span>ESPACIO RESERVADO</span>
+    </div>
+    <div class="proj-card">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 15l5-5 4 4 5-6 4 5"/></svg>
+      <span>ESPACIO RESERVADO</span>
+    </div>
+    <div class="proj-card">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 15l5-5 4 4 5-6 4 5"/></svg>
+      <span>ESPACIO RESERVADO</span>
+    </div>
+  </div>
+  <p class="proj-note">Próximamente: fotos e instalaciones reales de equipos frigoríficos automatizados. Escríbeme para conocer trabajos entregados.</p>
+</section>
+
+<section id="contacto">
+  <div class="sec-head">
+    <span class="sec-num mono">04</span>
+    <h2 class="sec-title display">Contacto</h2>
+    <div class="sec-line"></div>
+  </div>
+  <div class="contact-wrap">
+    <div>
+      <h2>¿Necesitas instalar o automatizar un equipo frigorífico?</h2>
+      <p>Escríbeme directamente por WhatsApp o encuéntrame en Facebook. Respondo lo antes posible.</p>
+    </div>
+    <div class="contact-links">
+      <a class="clink" href="https://wa.me/59162371448" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M21 11.5a8.5 8.5 0 0 1-12.5 7.4L3 20l1.1-5.4A8.5 8.5 0 1 1 21 11.5Z"/></svg>
+        <div><b>WhatsApp</b><span>+591 62371448</span></div>
+      </a>
+      <a class="clink" href="https://www.facebook.com/josue.diego" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M15 8h-2a2 2 0 0 0-2 2v2H9v3h2v6h3v-6h2l1-3h-3v-2a1 1 0 0 1 1-1h2z"/></svg>
+        <div><b>Facebook</b><span>Josué Diego</span></div>
+      </a>
+      <a class="clink" href="mailto:nina.8296809@gmail.com" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>
+        <div><b>Correo</b><span>nina.8296809@gmail.com</span></div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  © 2026 Diego Josué Nina Fernández — Ingeniería Electrónica · Refrigeración &amp; Automatización Industrial
+</footer>
+
+<script>
+  // Resaltar sección activa en el menú de navegación
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('nav a');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting){
+        navLinks.forEach(l => l.style.color = 'var(--text-dim)');
+        const active = document.querySelector(`nav a[href="#${entry.target.id}"]`);
+        if (active) active.style.color = 'var(--text)';
+      }
+    });
+  }, { threshold: 0.5 });
+  sections.forEach(s => observer.observe(s));
+</script>
+
+</body>
+</html>
